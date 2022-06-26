@@ -53,6 +53,7 @@ class CounterViewModel @Inject constructor(
         for (index in start..end) {
             _counters.value!!.removeLast()
         }
+        updateHighestCounter()
     }
 
     fun sendCounterNotification(position: Int, intent: Intent) {
