@@ -39,7 +39,10 @@ class CounterActivity : AppCompatActivity() {
                              */
 
                             counterViewModel.removeElementsInRange(index + 1)
-                            viewPager.currentItem = index
+
+                            // Even though ViewPager seems to not allow getting out of range,
+                            // I avoid using index in this scenario so as to avoid shooting yourself in a leg
+                            viewPager.currentItem = counterViewModel.getCounterListSize() - 1
 
                             /**
                              * 2.   Keep all fragments, instead, just move the fragment of notification number
