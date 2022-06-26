@@ -27,12 +27,12 @@ class NotificationUtil @Inject constructor(@ApplicationContext private val conte
         id: Int = Random.nextInt(0, 100000)
     ) {
         val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         } else {
-            PendingIntent.FLAG_CANCEL_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT
         }
 
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, flags)
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, id, intent, flags)
         val notificationBuilder = NotificationCompat.Builder(context, notificationChannelId)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(title)
