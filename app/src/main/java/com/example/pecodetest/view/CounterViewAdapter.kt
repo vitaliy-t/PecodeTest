@@ -1,16 +1,13 @@
 package com.example.pecodetest.view
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pecodetest.model.Counter
 import com.example.pecodetest.viewModel.CounterViewModel
-import com.example.pecodetest.util.NotificationUtil
 import com.example.pecodetest.databinding.FragmentCounterBinding
-import kotlin.random.Random
 
 class CounterViewAdapter(
     private val counterViewModel: CounterViewModel
@@ -57,7 +54,7 @@ class CounterViewAdapter(
 
         private fun setTvCreateNotificationClick(position: Int) = binding.tvCreateNotification.setOnClickListener {
             val intent: Intent = Intent(binding.root.context, CounterActivity::class.java)
-                .putExtra(CounterActivity.INTENT_EXTRA_COUNTER_KEY, counterViewModel.counters.value!![position].number)
+                .putExtra(CounterActivity.INTENT_EXTRA_COUNTER_INDEX_KEY, position)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 .setAction(CounterActivity.INTENT_ACTION_COUNTER_NAVIGATE_KEY)
             counterViewModel.sendCounterNotification(position, intent)

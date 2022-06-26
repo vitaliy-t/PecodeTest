@@ -1,15 +1,12 @@
 package com.example.pecodetest.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
-import com.example.pecodetest.model.Counter
-import com.example.pecodetest.viewModel.CounterViewModel
 import com.example.pecodetest.databinding.ActivityMainBinding
+import com.example.pecodetest.viewModel.CounterViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
 
 @AndroidEntryPoint
 class CounterActivity : AppCompatActivity() {
@@ -28,10 +25,27 @@ class CounterActivity : AppCompatActivity() {
             when (action) {
                 INTENT_ACTION_COUNTER_NAVIGATE_KEY -> {
                     intent.extras?.let { extras ->
-                        val counter: Int = extras.getInt(INTENT_EXTRA_COUNTER_KEY)
-                        if (counter >= 2) {
-                            // In this particular case, index will always be -1 of the value
-                            viewPager.currentItem = intent.extras?.getInt(INTENT_EXTRA_COUNTER_KEY)!! - 1
+                        val index: Int = extras.getInt(INTENT_EXTRA_COUNTER_INDEX_KEY)
+                        if (index >= 1) {
+                            /** As per task:
+                             * "clicking on “notification7” will open a fragment with the number 7 and you will be able to swipe between those 7 fragments."
+                             * I am able to achieve this, with addition of keeping all fragments and not limiting myself to only those 7 let's say.
+                             * However, I am not sure if that is actually what's required, so I will have both implementations just in case.
+                             */
+
+                            /**
+                             * 1.   Keep the fragment and those that precede it. We basically remove everything after our desired fragment
+                             *      and then proceed to that fragment
+                             */
+
+                            counterViewModel.removeElementsInRange(index + 1)
+                            viewPager.currentItem = index
+
+                            /**
+                             * 2.   Keep all fragments, instead, just move the fragment of notification number
+                             */
+
+                            // viewPager.currentItem = index
                         }
                     }
                 }
@@ -46,7 +60,7 @@ class CounterActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val INTENT_EXTRA_COUNTER_KEY = "intent_extra_counter_key"
+        const val INTENT_EXTRA_COUNTER_INDEX_KEY = "intent_extra_counter_index_key"
         const val INTENT_ACTION_COUNTER_NAVIGATE_KEY = "intent_action_counter_navigate_key"
     }
 }

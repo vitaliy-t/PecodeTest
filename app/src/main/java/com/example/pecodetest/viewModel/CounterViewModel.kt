@@ -1,7 +1,6 @@
 package com.example.pecodetest.viewModel
 
 import android.content.Intent
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.pecodetest.model.Counter
 import com.example.pecodetest.repository.CounterRepository
 import com.example.pecodetest.util.NotificationUtil
-import com.example.pecodetest.view.CounterActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -48,6 +46,12 @@ class CounterViewModel @Inject constructor(
         val lastCounter = _counters.value!!.last()
         lastCounter.notificationIds.forEach {
             notificationUtil.cancelNotification(it)
+        }
+    }
+
+    fun removeElementsInRange(start: Int, end: Int = getCounterListSize() - 1) {
+        for (index in start..end) {
+            _counters.value!!.removeLast()
         }
     }
 
